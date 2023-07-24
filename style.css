@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nova Slim', cursive;
+    background-color: #1e3d59;
+    color: #f5f0e1;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    font-family: 'Vibes', curive;
+    font-weight: 700;
+    font-size: 3rem;
+   
+}
+
+#infoboard {
+    padding: 20px;
+    font-size: 1.5rem;
+}
+
+#gameboard {
+    height:300px;
+    width: 300px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    height: 100px;
+    width: 100px;
+    border: 3px solid #f5f0e1;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.square:hover {
+    background-color: #1e3d5972;
+}
+
+.square:first-child, .square:nth-child(2), .square:nth-child(3){
+    border-top:none;
+}
+
+.square:nth-child(3n + 1){
+    border-left: none;
+}
+
+.square:nth-child(3n + 3){
+    border-right: none;
+}
+
+.square:last-child, .square:nth-child(7), .square:nth-child(8){
+    border-bottom: none;
+}
+
+.O {
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    border: 20px solid #ffc13b;
+    box-sizing: border-box;
+}
+
+.X {
+    height: 80px;
+    width: 80px;
+    position: relative;
+    transform: rotate(45deg);
+}
+
+.X:before, .X:after {
+    content: '';
+    position: absolute;
+    background-color:#ff6e40;
+}
+
+.X:before {
+    left: 50%;
+    width: 30%;
+    margin-left: -15%;
+    height: 100%;
+}
+
+.X:after {
+    top: 50%;
+    height: 30%;
+    margin-top: -15%;
+    width: 100%;
+}
+
+#reset-button {
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    color: #1e3d59;
+    background-color: #ffc13b;
+    font-family: 'Nova Slim', cursive;
+}
+
+#reset-button:hover{
+    background-color: #ff6e40;
+}

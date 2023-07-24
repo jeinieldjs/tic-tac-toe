@@ -2,6 +2,7 @@ let gameBoard = document.getElementById('gameboard');
 let infoDisplay = document.getElementById('infoboard');
 let startingCells = ['', '', '', '', '', '', '', '', ''];
 let turn = 'O';
+let moveTracker = [];
 infoDisplay.textContent = 'O goes first';
 let gameEnds = false;
 
@@ -69,11 +70,64 @@ function getWinner() {
 
   if (winner) {
     infoDisplay.textContent = winner + ' wins!';
-    return true;
+    return winner;
   }
 
-  return false;
+  return null;
 }
+
+function takeTurn(e) {
+  if (gameEnds || e.target.firstChild || getWinner()) return;
+
+  const gameDisplay = document.createElement('div');
+  gameDisplay.classList.add(turn);
+  e.target.append(gameDisplay);
+
+  // Update the move tracker with the current move
+  const move = turn + ' placed on cell ' + e.target.id;
+  moveTracker.push(move);
+
+  if (checkForDraw() && !getWinner()) {
+    infoDisplay.textContent = "It's a draw!";
+    gameEnds = true;
+    removeClickListeners();
+    return;
+  }
+
+  if (turn === 'O') {
+    turn = 'X';
+  } else {
+    turn = 'O';
+  }
+  infoDisplay.textContent = turn + "'s turn now.";
+
+  e.target.removeEventListener('click', takeTurn);
+  getWinner();
+
+  const winner = getWinner();
+  if (winner) {
+    infoDisplay.textContent = winner + ' wins!';
+    gameEnds = true;
+    removeClickListeners();
+    moveTracker.push(winner + ' wins!');
+  } else {
+    infoDisplay.textContent = turn + "'s turn now.";
+    moveTracker.push(turn + ' placed on cell ' + e.target.id);
+  }
+
+  e.target.removeEventListener('click', takeTurn);
+  // Show the move tracker after the turn
+  showMoveTracker();
+}
+
+function showMoveTracker() {
+  const moveTrackerElement = document.getElementById('moveTracker');
+  moveTrackerElement.textContent = 'Move Tracker:\n';
+  moveTracker.forEach((move, index) => {
+    moveTrackerElement.textContent += (index + 1) + '. ' + move + '\n';
+  });
+} 
+
 
 function removeClickListeners() {
   const allSquares = document.querySelectorAll('.square');
@@ -93,6 +147,8 @@ function resetGame() {
   infoDisplay.textContent = 'O goes first';
   gameEnds = false;
   allSquares.forEach(square => square.addEventListener('click', takeTurn));
+   moveTracker = [];
+  showMoveTracker();
 }
 
 createBoard();

@@ -4,6 +4,21 @@ let startingCells = ['', '', '', '', '', '', '', '', ''];
 let turn = 'O';
 infoDisplay.textContent = 'O goes first';
 let gameEnds = false;
+let moveHistory = [];
+let currentMoveIndex = -1;
+
+let controlContainer = document.getElementById('controls');
+let prevButton = document.createElement('button');
+prevButton.innerHTML='<i class="fa-solid fa-arrow-left"></i>';
+let nextButton = document.createElement('button');
+nextButton.innerHTML='<i class="fa-solid fa-arrow-right"></i>';
+controlContainer.appendChild(prevButton);
+controlContainer.appendChild(nextButton);
+prevButton.setAttribute('class', 'control-buttons');
+nextButton.setAttribute('class', 'control-buttons')
+//controlContainer.style.display='none';
+
+
 
 function createBoard() {
   startingCells.forEach((cell, index) => {
@@ -21,6 +36,7 @@ function checkForDraw() {
 }
 
 function takeTurn(e) {
+   
     if (gameEnds || e.target.firstChild || getWinner()) return;
   
     const gameDisplay = document.createElement('div');
@@ -87,6 +103,7 @@ resetButton.addEventListener('click', resetGame);
 document.body.appendChild(resetButton);
 
 function resetGame() {
+  //controlContainer.style.display='none';
   const allSquares = document.querySelectorAll('.square');
   allSquares.forEach(square => square.textContent = '');
   turn = 'O';

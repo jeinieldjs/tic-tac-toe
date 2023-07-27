@@ -62,6 +62,7 @@ function takeTurn(e) {
   getWinner();
 
 
+
   const position = parseInt(e.target.id);
   moveHistory.push(position);
   currentMoveIndex = moveHistory.length - 1;
@@ -92,6 +93,9 @@ function getWinner() {
 
   if (winner) {
     infoDisplay.textContent = winner + ' wins!';
+    gameEnds = true;
+  }  else if (checkForDraw()) {
+    infoDisplay.textContent = "It's a draw!";
     gameEnds = true;
   }
 
@@ -128,7 +132,7 @@ function applyMoveFromHistory() {
     allSquares[position].appendChild(gameDisplay);
   });
   turn = currentMoveIndex % 2 === 0 ? 'O' : 'X';
-  infoDisplay.textContent = `Move ${currentMoveIndex + 1}/${moveHistory.length} - ${turn}'s turn now.`;
+  infoDisplay.textContent = `Move ${currentMoveIndex + 1}/${moveHistory.length} - ${turn}'s turn.`;
   getWinner();
   updateButtons();
 }

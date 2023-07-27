@@ -132,13 +132,17 @@ function applyMoveFromHistory() {
     allSquares[position].appendChild(gameDisplay);
   });
   turn = currentMoveIndex % 2 === 0 ? 'O' : 'X';
-  infoDisplay.textContent = `Move ${currentMoveIndex + 1}/${moveHistory.length} - ${turn}'s turn.`;
+  if (currentMoveIndex === moveHistory.length - 1) {
+    infoDisplay.textContent = getWinner() ? `${turn} wins!` : "It's a draw!";
+  } else {
+    infoDisplay.textContent = `Move ${currentMoveIndex + 1}/${moveHistory.length} - ${turn}'s turn.`;
+  }
   getWinner();
   updateButtons();
 }
 
 function showPreviousMove() {
-  if (currentMoveIndex >= 0) {
+  if (currentMoveIndex >= 1) {
     currentMoveIndex--;
     applyMoveFromHistory();
   }

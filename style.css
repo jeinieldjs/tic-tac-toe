@@ -109,3 +109,27 @@ h1 {
 #reset-button:hover{
     background-color: #ff6e40;
 }
+
+#controls {
+    width: 300px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.control-buttons {
+    font-size: 2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    padding: 5px;
+    color: #1e3d59;
+    background-color: #ff6e40;
+    font-family: 'Nova Slim', cursive;
+}
+
+.control-buttons:hover {
+background-color: #ffc13b;
+}

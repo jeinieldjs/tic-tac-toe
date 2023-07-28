@@ -6,8 +6,10 @@ infoDisplay.textContent = 'X goes first';
 let gameEnds = false;
 let moveHistory = [];
 let currentMoveIndex = -1;
+
 let playerXScore = 0;
 let playerOScore = 0;
+
 
 
 let controlContainer = document.getElementById('controls');
@@ -58,6 +60,7 @@ function takeTurn(e) {
   } else {
     turn = turn === 'O' ? 'X' : 'O'; 
     infoDisplay.textContent = turn + "'s turn now.";
+
   }
 
   const winner = getWinner(); // Get the winner after each turn
@@ -81,11 +84,13 @@ function takeTurn(e) {
   }
 
   e.target.removeEventListener('click', takeTurn);
+
   const position = parseInt(e.target.id);
   moveHistory.push(position);
   currentMoveIndex = moveHistory.length - 1;
   updateButtons();
 }
+
 
 function updateScore() {
   const playerXScoreDisplay = document.getElementById('playerX-score');
@@ -131,6 +136,7 @@ function getWinner() {
     controlContainer.style.visibility = 'visible';
     removeClickListeners();
   }
+
 
   return winner; // Return the winner, not gameEnds
 }
@@ -207,4 +213,6 @@ function resetGame() {
 prevButton.onclick = showPreviousMove;
 nextButton.onclick = showNextMove;
 
+
 createBoard();
+

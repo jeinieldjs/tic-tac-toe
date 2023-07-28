@@ -1,15 +1,14 @@
 let gameBoard = document.getElementById('gameboard');
 let infoDisplay = document.getElementById('infoboard');
 let startingCells = ['', '', '', '', '', '', '', '', ''];
-let turn = 'O';
-infoDisplay.textContent = 'O goes first';
+let turn = 'X'; 
+infoDisplay.textContent = 'X goes first'; 
 let gameEnds = false;
 let moveHistory = [];
 let currentMoveIndex = -1;
 
 let controlContainer = document.getElementById('controls');
 let prevButton = document.createElement('button');
-
 prevButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
 let nextButton = document.createElement('button');
 nextButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
@@ -17,7 +16,7 @@ controlContainer.appendChild(prevButton);
 controlContainer.appendChild(nextButton);
 prevButton.setAttribute('class', 'control-buttons');
 nextButton.setAttribute('class', 'control-buttons');
-controlContainer.style.display = 'none';
+controlContainer.style.visibility = 'hidden';
 
 let resetButton = document.createElement('button');
 resetButton.textContent = 'RESET';
@@ -41,7 +40,6 @@ function checkForDraw() {
 }
 
 function takeTurn(e) {
-
   if (gameEnds || e.target.firstChild || getWinner()) return;
 
   const gameDisplay = document.createElement('div');
@@ -51,20 +49,16 @@ function takeTurn(e) {
   if (checkForDraw() && !getWinner()) {
     infoDisplay.textContent = "It's a draw!";
     gameEnds = true;
+    gameBoard.classList.add('blink-white');
+    controlContainer.style.visibility = 'visible';
+    removeClickListeners();
   } else {
-
-    if (turn === 'O') {
-      turn = 'X';
-    } else {
-      turn = 'O';
-    }
+    turn = turn === 'O' ? 'X' : 'O'; 
     infoDisplay.textContent = turn + "'s turn now.";
   }
 
   e.target.removeEventListener('click', takeTurn);
   getWinner();
-
-
 
   const position = parseInt(e.target.id);
   moveHistory.push(position);
@@ -97,13 +91,10 @@ function getWinner() {
   if (winner) {
     infoDisplay.textContent = winner + ' wins!';
     gameEnds = true;
-  }  else if (checkForDraw()) {
-    infoDisplay.textContent = "It's a draw!";
-    gameEnds = true;
-  }
-
-  if (gameEnds) {
-    controlContainer.style.display = 'flex';
+    gameBoard.classList.remove('blink-orange');
+    gameBoard.classList.remove('blink-yellow');
+    gameBoard.classList.add(winner === 'O' ? 'blink-orange' : 'blink-yellow'); 
+    controlContainer.style.visibility = 'visible';
     removeClickListeners();
   }
 
@@ -129,12 +120,12 @@ function applyMoveFromHistory() {
   clearBoard();
   const allSquares = document.querySelectorAll('.square');
   moveHistory.slice(0, currentMoveIndex + 1 ).forEach((position, index) => {
-    const player = index % 2 === 0 ? 'O' : 'X';
+    const player = index % 2 === 0 ? 'X' : 'O';
     const gameDisplay = document.createElement('div');
     gameDisplay.classList.add(player);
     allSquares[position].appendChild(gameDisplay);
   });
-  turn = currentMoveIndex % 2 === 0 ? 'O' : 'X';
+  turn = currentMoveIndex % 2 === 0 ? 'X' : 'O'; 
   if (currentMoveIndex === moveHistory.length - 1) {
     infoDisplay.textContent = getWinner() ? `${turn} wins!` : "It's a draw!";
   } else {
@@ -148,6 +139,9 @@ function showPreviousMove() {
   if (currentMoveIndex >= 1) {
     currentMoveIndex--;
     applyMoveFromHistory();
+    gameBoard.classList.remove('blink-orange');
+    gameBoard.classList.remove('blink-yellow');
+    gameBoard.classList.remove('blink-white');
   }
 }
 
@@ -155,25 +149,28 @@ function showNextMove() {
   if (currentMoveIndex < moveHistory.length - 1) {
     currentMoveIndex++;
     applyMoveFromHistory();
+    gameBoard.classList.remove('blink-orange');
+    gameBoard.classList.remove('blink-yellow');
+    gameBoard.classList.remove('blink-white');
   }
 }
 
 function resetGame() {
-
-  controlContainer.style.display = 'none';
+  controlContainer.style.visibility = 'hidden';
   const allSquares = document.querySelectorAll('.square');
   allSquares.forEach(square => square.textContent = '');
-  turn = 'O';
-  infoDisplay.textContent = 'O goes first';
+  turn = 'X'; 
+  infoDisplay.textContent = 'X goes first'; 
   gameEnds = false;
   allSquares.forEach(square => square.addEventListener('click', takeTurn));
   moveHistory = [];
   currentMoveIndex = -1;
+  gameBoard.classList.remove('blink-orange');
+  gameBoard.classList.remove('blink-yellow');
+  gameBoard.classList.remove('blink-white');
 }
-
 
 prevButton.onclick = showPreviousMove;
 nextButton.onclick = showNextMove;
 
 createBoard();
-

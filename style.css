@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Nova Slim', cursive;
+    font-family: 'Gaegu', cursive;
     background-color: #1e3d59;
     color: #f5f0e1;
     display: flex;
@@ -9,18 +9,31 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    min-width: 375px;
 }
 
 h1 {
-    font-family: 'Vibes', curive;
-    font-weight: 700;
-    font-size: 3rem;
-   
+    font-family: 'Gaegu', cursive;
+    font-weight: 900;
+    font-size: 4rem;
+    color: #f5f0e1;
+    animation: effect 2s linear infinite;
+    margin:0;
+
 }
 
+@keyframes effect {
+    0% {color: #f5f0e1;}
+    50% {color: #ffc13b;}
+    100% {color: #ff6e40;}
+}
 #infoboard {
     padding: 20px;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    margin: 0;
+    text-align: center;
+    padding-bottom: 20px;
+   
 }
 
 #gameboard {
@@ -28,20 +41,59 @@ h1 {
     width: 300px;
     display: flex;
     flex-wrap: wrap;
+    padding: 20px;
 }
 
 .square {
     height: 100px;
     width: 100px;
-    border: 3px solid #f5f0e1;
+    border: 5px solid #f5f0e1;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+@keyframes blink-yellow {
+    0%, 100% {
+      background-color: #ffc13b;
+    }
+    50% {
+      background-color: #26527992;
+    }
+}
+  
+@keyframes blink-orange {
+    0%, 100% {
+      background-color: #ff6e40;
+    }
+    50% {
+      background-color: #26527992;
+    }
+}
+
+@keyframes blink-white {
+    0%, 100% {
+      background-color: #f5f0e1;
+    }
+    50% {
+      background-color: #26527992;
+    }
+}
+.blink-yellow {
+    animation: blink-yellow 2s linear infinite;
+}
+
+.blink-orange {
+    animation: blink-orange 2s linear infinite;
+}
+
+.blink-white {
+    animation: blink-white 2s linear infinite;
+}
+
 .square:hover {
-    background-color: #1e3d5972;
+    background-color: #26527992;
 }
 
 .square:first-child, .square:nth-child(2), .square:nth-child(3){
@@ -61,16 +113,16 @@ h1 {
 }
 
 .O {
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
-    border: 20px solid #ffc13b;
+    border: 15px solid #ffc13b;
     box-sizing: border-box;
 }
 
 .X {
-    height: 80px;
-    width: 80px;
+    height: 60px;
+    width: 60px;
     position: relative;
     transform: rotate(45deg);
 }
@@ -112,11 +164,12 @@ h1 {
 
 #controls {
     width: 300px;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    visibility: hidden;
 }
 
 .control-buttons {

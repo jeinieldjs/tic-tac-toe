@@ -186,3 +186,30 @@ h1 {
 .control-buttons:hover {
 background-color: #ffc13b;
 }
+
+
+
+#scoreboard {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #26527992;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #scoreboard p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    color: #f5f0e1;
+  }
+  
+  #playerX-score,
+  #playerO-score {
+    font-size: 1.2rem;
+    margin-top: 5px;
+    color: #f5f0e1;
+  }
+

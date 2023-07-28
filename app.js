@@ -7,6 +7,11 @@ let gameEnds = false;
 let moveHistory = [];
 let currentMoveIndex = -1;
 
+let playerXScore = 0;
+let playerOScore = 0;
+
+
+
 let controlContainer = document.getElementById('controls');
 let prevButton = document.createElement('button');
 prevButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
@@ -55,15 +60,49 @@ function takeTurn(e) {
   } else {
     turn = turn === 'O' ? 'X' : 'O'; 
     infoDisplay.textContent = turn + "'s turn now.";
+
+  }
+
+  const winner = getWinner(); // Get the winner after each turn
+
+  if (winner) {
+    infoDisplay.textContent = winner + ' wins!';
+    gameEnds = true;
+    gameBoard.classList.remove('blink-orange');
+    gameBoard.classList.remove('blink-yellow');
+    gameBoard.classList.add(winner === 'O' ? 'blink-orange' : 'blink-yellow'); 
+    controlContainer.style.visibility = 'visible';
+    removeClickListeners();
+
+    // Update the scores here
+    if (winner === 'O') {
+      playerOScore++;
+    } else {
+      playerXScore++;
+    }
+    updateScore();
   }
 
   e.target.removeEventListener('click', takeTurn);
-  getWinner();
 
   const position = parseInt(e.target.id);
   moveHistory.push(position);
   currentMoveIndex = moveHistory.length - 1;
   updateButtons();
+}
+
+
+function updateScore() {
+  const playerXScoreDisplay = document.getElementById('playerX-score');
+  const playerOScoreDisplay = document.getElementById('playerO-score');
+  playerXScoreDisplay.textContent = `Player X: ${playerXScore}`;
+  playerOScoreDisplay.textContent = `Player O: ${playerOScore}`;
+}
+
+function resetScore() {
+  playerXScore = 0;
+  playerOScore = 0;
+  updateScore();
 }
 
 function getWinner() {
@@ -75,15 +114,15 @@ function getWinner() {
   let winner = null;
 
   for (const array of winningCombinations) {
-    const circleWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('O'));
-    if (circleWins) {
-      winner = 'O';
-      break;
-    }
-
     const crossWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('X'));
     if (crossWins) {
       winner = 'X';
+      break;
+    }
+
+    const circleWins = array.every(cell => allSquares[cell].firstChild?.classList.contains('O'));
+    if (circleWins) {
+      winner = 'O';
       break;
     }
   }
@@ -98,7 +137,8 @@ function getWinner() {
     removeClickListeners();
   }
 
-  return gameEnds;
+
+  return winner; // Return the winner, not gameEnds
 }
 
 function removeClickListeners() {
@@ -173,4 +213,6 @@ function resetGame() {
 prevButton.onclick = showPreviousMove;
 nextButton.onclick = showNextMove;
 
+
 createBoard();
+

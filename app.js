@@ -9,6 +9,7 @@ let currentMoveIndex = -1;
 
 let controlContainer = document.getElementById('controls');
 let prevButton = document.createElement('button');
+
 prevButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
 let nextButton = document.createElement('button');
 nextButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i>';
@@ -40,6 +41,7 @@ function checkForDraw() {
 }
 
 function takeTurn(e) {
+
   if (gameEnds || e.target.firstChild || getWinner()) return;
 
   const gameDisplay = document.createElement('div');
@@ -50,6 +52,7 @@ function takeTurn(e) {
     infoDisplay.textContent = "It's a draw!";
     gameEnds = true;
   } else {
+
     if (turn === 'O') {
       turn = 'X';
     } else {
@@ -156,6 +159,7 @@ function showNextMove() {
 }
 
 function resetGame() {
+
   controlContainer.style.display = 'none';
   const allSquares = document.querySelectorAll('.square');
   allSquares.forEach(square => square.textContent = '');

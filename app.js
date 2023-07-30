@@ -9,8 +9,7 @@ let currentMoveIndex = -1;
 
 let playerXScore = 0;
 let playerOScore = 0;
-
-
+let drawScore = 0; 
 
 let controlContainer = document.getElementById('controls');
 let prevButton = document.createElement('button');
@@ -57,13 +56,14 @@ function takeTurn(e) {
     gameBoard.classList.add('blink-white');
     controlContainer.style.visibility = 'visible';
     removeClickListeners();
+    drawScore++;
+    updateScore();
   } else {
     turn = turn === 'O' ? 'X' : 'O'; 
     infoDisplay.textContent = turn + "'s turn now.";
-
   }
 
-  const winner = getWinner(); // Get the winner after each turn
+  const winner = getWinner();
 
   if (winner) {
     infoDisplay.textContent = winner + ' wins!';
@@ -73,8 +73,6 @@ function takeTurn(e) {
     gameBoard.classList.add(winner === 'O' ? 'blink-orange' : 'blink-yellow'); 
     controlContainer.style.visibility = 'visible';
     removeClickListeners();
-
-    // Update the scores here
     if (winner === 'O') {
       playerOScore++;
     } else {
@@ -91,17 +89,19 @@ function takeTurn(e) {
   updateButtons();
 }
 
-
 function updateScore() {
   const playerXScoreDisplay = document.getElementById('playerX-score');
   const playerOScoreDisplay = document.getElementById('playerO-score');
+  const drawScoreDisplay = document.getElementById('draw-score');
   playerXScoreDisplay.textContent = `Player X: ${playerXScore}`;
   playerOScoreDisplay.textContent = `Player O: ${playerOScore}`;
+  drawScoreDisplay.textContent = `Draw: ${drawScore}`;
 }
 
 function resetScore() {
   playerXScore = 0;
   playerOScore = 0;
+  drawScore = 0;
   updateScore();
 }
 
@@ -137,8 +137,7 @@ function getWinner() {
     removeClickListeners();
   }
 
-
-  return winner; // Return the winner, not gameEnds
+  return winner;
 }
 
 function removeClickListeners() {
@@ -159,13 +158,13 @@ function updateButtons() {
 function applyMoveFromHistory() {
   clearBoard();
   const allSquares = document.querySelectorAll('.square');
-  moveHistory.slice(0, currentMoveIndex + 1 ).forEach((position, index) => {
+  moveHistory.slice(0, currentMoveIndex + 1).forEach((position, index) => {
     const player = index % 2 === 0 ? 'X' : 'O';
     const gameDisplay = document.createElement('div');
     gameDisplay.classList.add(player);
     allSquares[position].appendChild(gameDisplay);
   });
-  turn = currentMoveIndex % 2 === 0 ? 'X' : 'O'; 
+  turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
   if (currentMoveIndex === moveHistory.length - 1) {
     infoDisplay.textContent = getWinner() ? `${turn} wins!` : "It's a draw!";
   } else {
@@ -208,11 +207,43 @@ function resetGame() {
   gameBoard.classList.remove('blink-orange');
   gameBoard.classList.remove('blink-yellow');
   gameBoard.classList.remove('blink-white');
+  updateScore();
 }
 
 prevButton.onclick = showPreviousMove;
 nextButton.onclick = showNextMove;
 
+let isLightMode = false;
+let lightSwitch = document.createElement('button');
+lightSwitch.innerHTML='<i class="fa-solid fa-toggle-off"></i>'
+document.body.appendChild(lightSwitch);
+lightSwitch.style.fontSize = '2rem';
+lightSwitch.style.border ='none';
+lightSwitch.style.backgroundColor ='transparent';
+lightSwitch.style.position = 'fixed';
+lightSwitch.style.bottom = '10px'; 
+lightSwitch.style.right = '10px'; 
+lightSwitch.addEventListener('click', changeTheme);
+
+function changeTheme() {
+  let element = document.body;
+  const allSquares = document.querySelectorAll('.square');
+  
+  if (isLightMode){
+    element.classList.remove('light-mode');
+    for (let square of allSquares) {
+      square.style.borderColor = '#f5f0e1';
+      lightSwitch.innerHTML='<i class="fa-solid fa-toggle-off"></i>';
+  }
+  } else {
+    element.classList.add('light-mode');
+    for (let square of allSquares) {
+      square.style.borderColor = '#1e3d59';
+      lightSwitch.innerHTML = '<i class="fa-solid fa-toggle-on"></i>';
+  }
+}
+
+isLightMode = !isLightMode
+}
 
 createBoard();
-

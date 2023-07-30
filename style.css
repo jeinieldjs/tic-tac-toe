@@ -2,7 +2,10 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Gaegu', cursive;
-    background-color: #1e3d59;
+    background-image: url('/images/blob-dark.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     color: #f5f0e1;
     display: flex;
     flex-direction:column;
@@ -28,12 +31,10 @@ h1 {
     100% {color: #ff6e40;}
 }
 #infoboard {
-    padding: 20px;
+    padding: 10px;
     font-size: 2rem;
     margin: 0;
     text-align: center;
-    padding-bottom: 20px;
-   
 }
 
 #gameboard {
@@ -41,7 +42,7 @@ h1 {
     width: 300px;
     display: flex;
     flex-wrap: wrap;
-    padding: 20px;
+    padding: 20px 20px 10px 20px;
 }
 
 .square {
@@ -164,7 +165,7 @@ h1 {
 
 #controls {
     width: 300px;
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -187,29 +188,47 @@ h1 {
 background-color: #ffc13b;
 }
 
-
-
 #scoreboard {
-    margin-top: 20px;
+    margin-top: 5px;
+    margin-bottom: 10px;
     padding: 10px;
     background-color: #26527992;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-  }
-  
-  #scoreboard p {
+    text-align: center;
+    width: 350px;
+    font-family: 'Nova Slim', cursive;
+}
+
+#scores {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+#scoreboard p {
     font-size: 1.5rem;
     font-weight: bold;
-    margin: 0;
     color: #f5f0e1;
-  }
+    margin-top:5px;
+    margin-bottom:5px;
+}
   
-  #playerX-score,
-  #playerO-score {
-    font-size: 1.2rem;
-    margin-top: 5px;
+#playerX-score,
+  #playerO-score, #draw-score {
+    font-size: 1rem;
     color: #f5f0e1;
   }
+
+.light-mode {
+    background-image: url('/images/blob-light.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color:  #1e3d59;
+    font-weight: 600;
+}
 

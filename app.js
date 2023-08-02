@@ -3,6 +3,7 @@ let infoDisplay = document.getElementById('infoboard');
 let startingCells = ['', '', '', '', '', '', '', '', ''];
 let turn = 'X'; 
 infoDisplay.textContent = 'X goes first'; 
+let startingPlayerSymbol = '';
 let gameEnds = false;
 let moveHistory = [];
 let currentMoveIndex = -1;
@@ -35,28 +36,27 @@ function setupGame() {
   const startButton = document.getElementById('start-button');
   const goesFirstInfo = document.getElementById('infoboard');
   gameBoard.style.display = 'none';
-  goesFirstInfo.style.display = 'none'
+  goesFirstInfo.style.display = 'none';
+
   startButton.addEventListener('click', () => {
     const playerSymbol = symbolSelect.value.toUpperCase();
     if (playerSymbol !== 'X' && playerSymbol !== 'O') {
       alert("Invalid symbol choice. Defaulting to 'X'.");
-      turn = 'X';
+      startingPlayerSymbol = 'X';
     } else {
-      turn = playerSymbol;
+      startingPlayerSymbol = playerSymbol;
     }
 
     const playerFirst = firstMoveCheckbox.checked;
-    if (!playerFirst) {
-      turn = turn === 'X' ? 'O' : 'X';
-    }
+    turn = playerFirst ? startingPlayerSymbol : startingPlayerSymbol === 'X' ? 'O' : 'X';
 
-   goesFirstInfo.textContent = `${turn} goes first.`
+    goesFirstInfo.textContent = `${turn} goes first.`;
     gameBoard.style.display = '';
     goesFirstInfo.style.display = 'block';
-    playerChoiceDiv.style.display = 'none'; 
-    
+    playerChoiceDiv.style.display = 'none';
   });
 }
+
 
 function createBoard() {
   startingCells.forEach((cell, index) => {
@@ -189,12 +189,15 @@ function applyMoveFromHistory() {
   clearBoard();
   const allSquares = document.querySelectorAll('.square');
   moveHistory.slice(0, currentMoveIndex + 1).forEach((position, index) => {
-    const player = index % 2 === 0 ? 'X' : 'O';
+    const player = index % 2 === 0 ? startingPlayerSymbol : startingPlayerSymbol === 'X' ? 'O' : 'X';
     const gameDisplay = document.createElement('div');
     gameDisplay.classList.add(player);
     allSquares[position].appendChild(gameDisplay);
   });
-  turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
+
+  
+  turn = currentMoveIndex % 2 === 0 ? startingPlayerSymbol : startingPlayerSymbol === 'X' ? 'O' : 'X';
+
   if (currentMoveIndex === moveHistory.length - 1) {
     infoDisplay.textContent = getWinner() ? `${turn} wins!` : "It's a draw!";
   } else {
@@ -204,26 +207,28 @@ function applyMoveFromHistory() {
   updateButtons();
 }
 
+
 function showPreviousMove() {
   if (currentMoveIndex >= 1) {
+     turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
     currentMoveIndex--;
     applyMoveFromHistory();
     gameBoard.classList.remove('blink-orange');
     gameBoard.classList.remove('blink-yellow');
     gameBoard.classList.remove('blink-white');
   }
-  getWinner();
+  
 }
 
 function showNextMove() {
   if (currentMoveIndex < moveHistory.length - 1) {
     currentMoveIndex++;
+     turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
     applyMoveFromHistory();
     gameBoard.classList.remove('blink-orange');
     gameBoard.classList.remove('blink-yellow');
     gameBoard.classList.remove('blink-white');
   }
-  getWinner();
 }
 
 function resetGame() {

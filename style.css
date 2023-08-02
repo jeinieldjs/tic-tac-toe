@@ -232,3 +232,32 @@ background-color: #ffc13b;
     font-weight: 600;
 }
 
+#player-choice {
+    font-size: 1.5rem;
+}
+
+
+#first-move {
+    height: 25px;
+    width: 25px;
+
+}
+
+
+ #symbol {
+    height: 35px;
+    width: 35px;
+    
+ }
+
+
+ #start-button {
+    font-size: 1.5rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        padding: 5px;
+        color: #1e3d59;
+        background-color: #ffc13b;
+        font-family: 'Nova Slim', cursive;
+ }

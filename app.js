@@ -208,6 +208,15 @@ function resetGame() {
   gameBoard.classList.remove('blink-yellow');
   gameBoard.classList.remove('blink-white');
   updateScore();
+
+  resetButton.addEventListener('click', () => {
+  resetGame();
+  setupGame();
+  const playerChoiceDiv = document.getElementById('player-choice');
+  playerChoiceDiv.style.display = 'block'; 
+});
+
+setupGame();
 }
 
 prevButton.onclick = showPreviousMove;
@@ -246,4 +255,30 @@ function changeTheme() {
 isLightMode = !isLightMode
 }
 
+
+function setupGame() {
+  const playerChoiceDiv = document.getElementById('player-choice');
+  const symbolSelect = document.getElementById('symbol');
+  const firstMoveCheckbox = document.getElementById('first-move');
+  const startButton = document.getElementById('start-button');
+
+  startButton.addEventListener('click', () => {
+    const playerSymbol = symbolSelect.value.toUpperCase();
+    if (playerSymbol !== 'X' && playerSymbol !== 'O') {
+      alert("Invalid symbol choice. Defaulting to 'X'.");
+      turn = 'X';
+    } else {
+      turn = playerSymbol;
+    }
+
+    const playerFirst = firstMoveCheckbox.checked;
+    if (!playerFirst) {
+      turn = turn === 'X' ? 'O' : 'X';
+    }
+
+    infoDisplay.textContent = `${turn} goes first.`;
+    playerChoiceDiv.style.display = 'none'; 
+  });
+}
+setupGame();
 createBoard();

@@ -28,6 +28,36 @@ resetButton.setAttribute('id', 'reset-button');
 resetButton.addEventListener('click', resetGame);
 document.body.appendChild(resetButton);
 
+function setupGame() {
+  const playerChoiceDiv = document.getElementById('player-choice');
+  const symbolSelect = document.getElementById('symbol');
+  const firstMoveCheckbox = document.getElementById('first-move');
+  const startButton = document.getElementById('start-button');
+  const goesFirstInfo = document.getElementById('infoboard');
+  gameBoard.style.display = 'none';
+  goesFirstInfo.style.display = 'none'
+  startButton.addEventListener('click', () => {
+    const playerSymbol = symbolSelect.value.toUpperCase();
+    if (playerSymbol !== 'X' && playerSymbol !== 'O') {
+      alert("Invalid symbol choice. Defaulting to 'X'.");
+      turn = 'X';
+    } else {
+      turn = playerSymbol;
+    }
+
+    const playerFirst = firstMoveCheckbox.checked;
+    if (!playerFirst) {
+      turn = turn === 'X' ? 'O' : 'X';
+    }
+
+   goesFirstInfo.textContent = `${turn} goes first.`
+    gameBoard.style.display = '';
+    goesFirstInfo.style.display = 'block';
+    playerChoiceDiv.style.display = 'none'; 
+    
+  });
+}
+
 function createBoard() {
   startingCells.forEach((cell, index) => {
     const indivCell = document.createElement('div');
@@ -182,6 +212,7 @@ function showPreviousMove() {
     gameBoard.classList.remove('blink-yellow');
     gameBoard.classList.remove('blink-white');
   }
+  getWinner();
 }
 
 function showNextMove() {
@@ -192,6 +223,7 @@ function showNextMove() {
     gameBoard.classList.remove('blink-yellow');
     gameBoard.classList.remove('blink-white');
   }
+  getWinner();
 }
 
 function resetGame() {
@@ -256,29 +288,6 @@ isLightMode = !isLightMode
 }
 
 
-function setupGame() {
-  const playerChoiceDiv = document.getElementById('player-choice');
-  const symbolSelect = document.getElementById('symbol');
-  const firstMoveCheckbox = document.getElementById('first-move');
-  const startButton = document.getElementById('start-button');
 
-  startButton.addEventListener('click', () => {
-    const playerSymbol = symbolSelect.value.toUpperCase();
-    if (playerSymbol !== 'X' && playerSymbol !== 'O') {
-      alert("Invalid symbol choice. Defaulting to 'X'.");
-      turn = 'X';
-    } else {
-      turn = playerSymbol;
-    }
-
-    const playerFirst = firstMoveCheckbox.checked;
-    if (!playerFirst) {
-      turn = turn === 'X' ? 'O' : 'X';
-    }
-
-    infoDisplay.textContent = `${turn} goes first.`;
-    playerChoiceDiv.style.display = 'none'; 
-  });
-}
 setupGame();
 createBoard();

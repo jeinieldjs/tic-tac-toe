@@ -32,11 +32,12 @@ document.body.appendChild(resetButton);
 function setupGame() {
   const playerChoiceDiv = document.getElementById('player-choice');
   const symbolSelect = document.getElementById('symbol');
-  const firstMoveCheckbox = document.getElementById('first-move');
   const startButton = document.getElementById('start-button');
-  const goesFirstInfo = document.getElementById('infoboard');
+  const scoreboard = document.getElementById('scoreboard');
   gameBoard.style.display = 'none';
-  goesFirstInfo.style.display = 'none';
+  infoDisplay.style.display ='none';
+  resetButton.style.visibility ='hidden';
+  scoreboard.style.visibility ='hidden';
 
   startButton.addEventListener('click', () => {
     const playerSymbol = symbolSelect.value.toUpperCase();
@@ -47,13 +48,13 @@ function setupGame() {
       startingPlayerSymbol = playerSymbol;
     }
 
-    const playerFirst = firstMoveCheckbox.checked;
-    turn = playerFirst ? startingPlayerSymbol : startingPlayerSymbol === 'X' ? 'O' : 'X';
-
-    goesFirstInfo.textContent = `${turn} goes first.`;
-    gameBoard.style.display = '';
-    goesFirstInfo.style.display = 'block';
+    turn = startingPlayerSymbol;
+    infoDisplay.textContent = `${turn} goes first.`;
+    gameBoard.style.display = 'flex';
+    infoDisplay.style.display = 'flex';
     playerChoiceDiv.style.display = 'none';
+    resetButton.style.visibility ='visible';
+    scoreboard.style.visibility ='visible';
   });
 }
 
@@ -232,11 +233,10 @@ function showNextMove() {
 }
 
 function resetGame() {
+  setupGame();
   controlContainer.style.visibility = 'hidden';
   const allSquares = document.querySelectorAll('.square');
   allSquares.forEach(square => square.textContent = '');
-  turn = 'X'; 
-  infoDisplay.textContent = 'X goes first'; 
   gameEnds = false;
   allSquares.forEach(square => square.addEventListener('click', takeTurn));
   moveHistory = [];
@@ -245,16 +245,12 @@ function resetGame() {
   gameBoard.classList.remove('blink-yellow');
   gameBoard.classList.remove('blink-white');
   updateScore();
-
-  resetButton.addEventListener('click', () => {
-  resetGame();
-  setupGame();
   const playerChoiceDiv = document.getElementById('player-choice');
   playerChoiceDiv.style.display = 'block'; 
+};
+resetButton.addEventListener('click', () => {
+  resetGame();
 });
-
-setupGame();
-}
 
 prevButton.onclick = showPreviousMove;
 nextButton.onclick = showNextMove;

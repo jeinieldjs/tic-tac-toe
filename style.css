@@ -16,13 +16,14 @@ body {
 }
 
 h1 {
-    font-family: 'Gaegu', cursive;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    text-align: center;
+    font-family: 'Nova Slim', cursive;
     font-weight: 900;
-    font-size: 4rem;
+    font-size: 5rem;
     color: #f5f0e1;
     animation: effect 2s linear infinite;
-    margin:0;
-
 }
 
 @keyframes effect {
@@ -31,10 +32,12 @@ h1 {
     100% {color: #ff6e40;}
 }
 #infoboard {
-    padding: 10px;
+    padding-top: 10px;
     font-size: 2rem;
     margin: 0;
     text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 #gameboard {
@@ -148,7 +151,7 @@ h1 {
     width: 100%;
 }
 
-#reset-button {
+#reset-button, #start-button {
     font-size: 1.5rem;
     font-weight: 600;
     border: none;
@@ -159,7 +162,7 @@ h1 {
     font-family: 'Nova Slim', cursive;
 }
 
-#reset-button:hover{
+#reset-button:hover, #start-button:hover{
     background-color: #ff6e40;
 }
 
@@ -174,7 +177,7 @@ h1 {
 }
 
 .control-buttons {
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: 600;
     border: none;
     border-radius: 50px;
@@ -191,7 +194,7 @@ background-color: #ffc13b;
 #scoreboard {
     margin-top: 5px;
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 5px;
     background-color: #26527992;
     border-radius: 10px;
     display: flex;
@@ -233,31 +236,27 @@ background-color: #ffc13b;
 }
 
 #player-choice {
-    font-size: 1.5rem;
+    font-family: 'Gaegu', cursive;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    padding-top: 50px;
 }
 
-
-#first-move {
-    height: 25px;
-    width: 25px;
-
-}
-
-
- #symbol {
-    height: 35px;
-    width: 35px;
+#symbol {
+    height: 3rem;
+    width: 3rem;
+   
     
- }
+}
 
-
- #start-button {
-    font-size: 1.5rem;
-        font-weight: 600;
-        border: none;
-        border-radius: 10px;
-        padding: 5px;
-        color: #1e3d59;
-        background-color: #ffc13b;
-        font-family: 'Nova Slim', cursive;
- }
+select {
+    background-color: #26527992;
+    border: solid 3px #26527992;
+    border-radius: 10px;
+    font-family: 'Gaegu', cursive; 
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    color: #f5f0e1;
+}

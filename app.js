@@ -3,6 +3,7 @@ let infoDisplay = document.getElementById('infoboard');
 let startingCells = ['', '', '', '', '', '', '', '', ''];
 let turn = 'X'; 
 infoDisplay.textContent = 'X goes first'; 
+let startingPlayerSymbol = '';
 let gameEnds = false;
 let moveHistory = [];
 let currentMoveIndex = -1;
@@ -27,6 +28,36 @@ resetButton.textContent = 'RESET';
 resetButton.setAttribute('id', 'reset-button');
 resetButton.addEventListener('click', resetGame);
 document.body.appendChild(resetButton);
+
+function setupGame() {
+  const playerChoiceDiv = document.getElementById('player-choice');
+  const symbolSelect = document.getElementById('symbol');
+  const startButton = document.getElementById('start-button');
+  const scoreboard = document.getElementById('scoreboard');
+  gameBoard.style.display = 'none';
+  infoDisplay.style.display ='none';
+  resetButton.style.visibility ='hidden';
+  scoreboard.style.visibility ='hidden';
+
+  startButton.addEventListener('click', () => {
+    const playerSymbol = symbolSelect.value.toUpperCase();
+    if (playerSymbol !== 'X' && playerSymbol !== 'O') {
+      alert("Invalid symbol choice. Defaulting to 'X'.");
+      startingPlayerSymbol = 'X';
+    } else {
+      startingPlayerSymbol = playerSymbol;
+    }
+
+    turn = startingPlayerSymbol;
+    infoDisplay.textContent = `${turn} goes first.`;
+    gameBoard.style.display = 'flex';
+    infoDisplay.style.display = 'flex';
+    playerChoiceDiv.style.display = 'none';
+    resetButton.style.visibility ='visible';
+    scoreboard.style.visibility ='visible';
+  });
+}
+
 
 function createBoard() {
   startingCells.forEach((cell, index) => {
@@ -159,12 +190,15 @@ function applyMoveFromHistory() {
   clearBoard();
   const allSquares = document.querySelectorAll('.square');
   moveHistory.slice(0, currentMoveIndex + 1).forEach((position, index) => {
-    const player = index % 2 === 0 ? 'X' : 'O';
+    const player = index % 2 === 0 ? startingPlayerSymbol : startingPlayerSymbol === 'X' ? 'O' : 'X';
     const gameDisplay = document.createElement('div');
     gameDisplay.classList.add(player);
     allSquares[position].appendChild(gameDisplay);
   });
-  turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
+
+  
+  turn = currentMoveIndex % 2 === 0 ? startingPlayerSymbol : startingPlayerSymbol === 'X' ? 'O' : 'X';
+
   if (currentMoveIndex === moveHistory.length - 1) {
     infoDisplay.textContent = getWinner() ? `${turn} wins!` : "It's a draw!";
   } else {
@@ -174,19 +208,23 @@ function applyMoveFromHistory() {
   updateButtons();
 }
 
+
 function showPreviousMove() {
   if (currentMoveIndex >= 1) {
+     turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
     currentMoveIndex--;
     applyMoveFromHistory();
     gameBoard.classList.remove('blink-orange');
     gameBoard.classList.remove('blink-yellow');
     gameBoard.classList.remove('blink-white');
   }
+  
 }
 
 function showNextMove() {
   if (currentMoveIndex < moveHistory.length - 1) {
     currentMoveIndex++;
+     turn = currentMoveIndex % 2 === 0 ? 'X' : 'O';
     applyMoveFromHistory();
     gameBoard.classList.remove('blink-orange');
     gameBoard.classList.remove('blink-yellow');
@@ -195,11 +233,10 @@ function showNextMove() {
 }
 
 function resetGame() {
+  setupGame();
   controlContainer.style.visibility = 'hidden';
   const allSquares = document.querySelectorAll('.square');
   allSquares.forEach(square => square.textContent = '');
-  turn = 'X'; 
-  infoDisplay.textContent = 'X goes first'; 
   gameEnds = false;
   allSquares.forEach(square => square.addEventListener('click', takeTurn));
   moveHistory = [];
@@ -208,7 +245,12 @@ function resetGame() {
   gameBoard.classList.remove('blink-yellow');
   gameBoard.classList.remove('blink-white');
   updateScore();
-}
+  const playerChoiceDiv = document.getElementById('player-choice');
+  playerChoiceDiv.style.display = 'block'; 
+};
+resetButton.addEventListener('click', () => {
+  resetGame();
+});
 
 prevButton.onclick = showPreviousMove;
 nextButton.onclick = showNextMove;
@@ -246,4 +288,7 @@ function changeTheme() {
 isLightMode = !isLightMode
 }
 
+
+
+setupGame();
 createBoard();

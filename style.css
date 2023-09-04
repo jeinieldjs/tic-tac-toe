@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Gaegu', cursive;
-    background-image: url('/images/blob-dark.png');
+    background-image: url('images/blob-dark.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -227,7 +227,7 @@ background-color: #ffc13b;
   }
 
 .light-mode {
-    background-image: url('/images/blob-light.png');
+    background-image: url('images/blob-light.png');
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
